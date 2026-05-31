@@ -1,0 +1,51 @@
+Jmeno site:
+    Mutex_Spravedlivy
+Komentar:
+    Procesy po opusteni kriticke sekce musi chvili odpocivat, aby neukradly Mutex zpet.
+Vstupy:
+    A_Ceka
+    B_Ceka
+Vystupy:
+    A_Kriticka
+    B_Kriticka
+Promenne:
+    
+Mista (pocatecni tokeny, volitelne akce):
+    A_Ceka (1) : { }
+    A_Kriticka (0) : { }
+    A_Odpociva (0) : { }
+    B_Ceka (1) : { }
+    B_Kriticka (0) : { }
+    B_Odpociva (0) : { }
+    Mutex (1) : { }
+Prechody (prvni blok = arcs, druhy blok = podminky a akce):
+T_Vstup_A :
+    in:  A_Ceka*1, Mutex*1
+    out: A_Kriticka*1
+    when:  [ true ] @ 1000
+    do: { std::cout << "Proces A vstoupil.\n"; }
+T_Vystup_A :
+    in:  A_Kriticka*1
+    out: A_Odpociva*1, Mutex*1
+    when:  [ true ] @ 1000
+    do: { std::cout << "Proces A opustil.\n"; }
+T_Odpocinek_A :
+    in: A_Odpociva*1
+    out: A_Ceka*1
+    when: [ true ] @ 1500
+    do: { }
+T_Vstup_B :
+    in:  B_Ceka*1, Mutex*1
+    out: B_Kriticka*1
+    when:  [ true ] @ 1000
+    do: { std::cout << "Proces B vstoupil.\n"; }
+T_Vystup_B :
+    in:  B_Kriticka*1
+    out: B_Odpociva*1, Mutex*1
+    when:  [ true ] @ 1000
+    do: { std::cout << "Proces B opustil.\n"; }
+T_Odpocinek_B :
+    in: B_Odpociva*1
+    out: B_Ceka*1
+    when: [ true ] @ 1500
+    do: { }

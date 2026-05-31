@@ -40,6 +40,9 @@
 # debug information files
 *.dwo
 
+*:Zone.Identifier
+Petri_net.zip
+
 .vscode/
 build/
 PetriNetApp

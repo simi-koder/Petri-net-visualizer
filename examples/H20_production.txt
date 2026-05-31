@@ -1,0 +1,20 @@
+Jmeno site:
+    Reakce_H2O
+Komentar:
+    Ukazka prace s vahami (weights). 2x Vodik + 1x Kyslik = Voda
+Vstupy:
+    none
+Vystupy:
+    none
+Promenne:
+    int vyrobena_voda = 0;
+Mista (pocatecni tokeny, volitelne akce):
+    Vodik (4) : { }
+    Kyslik (2) : { }
+    Voda (0) : { }
+Prechody (prvni blok = arcs, druhy blok = podminky a akce):
+T_Slouceni :
+    in: Vodik*2, Kyslik*1
+    out: Voda*1
+    when: [ true ] @ 1000
+    do: { vyrobena_voda++; g_engine->send_log("Vytvorena H2O (" + std::to_string(vyrobena_voda) + " celkem)"); }

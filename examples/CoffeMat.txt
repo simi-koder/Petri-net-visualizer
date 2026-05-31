@@ -1,0 +1,30 @@
+Jmeno site:
+    Kavomat
+Komentar:
+    Automat na kavu. Ukazka promennych, guardu a predavani hodnot z GUI.
+Vstupy:
+    mince
+    tlacitko
+Vystupy:
+    none
+Promenne:
+    int kredit = 0;
+Mista (pocatecni tokeny, volitelne akce):
+    Pripraven (1) : { }
+    Priprava_Kavy (0) : { }
+Prechody (prvni blok = arcs, druhy blok = podminky a akce):
+T_Vhodit_Minci :
+    in: Pripraven*1
+    out: Pripraven*1
+    when: mince [ true ] @ 0
+    do: { kredit = kredit + atoi(valueof("mince")); g_engine->send_log("Vhozeno. Kredit: " + std::to_string(kredit)); }
+T_Koupit_Kavu :
+    in: Pripraven*1
+    out: Priprava_Kavy*1
+    when: tlacitko [ kredit >= 15 ] @ 0
+    do: { kredit = kredit - 15; g_engine->send_log("Varim kavu. Zbyva kredit: " + std::to_string(kredit)); }
+T_Kava_Hotova :
+    in: Priprava_Kavy*1
+    out: Pripraven*1
+    when: [ true ] @ 2000
+    do: { g_engine->send_log("Kava vydana!"); }

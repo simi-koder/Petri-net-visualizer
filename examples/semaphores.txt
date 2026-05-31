@@ -1,0 +1,30 @@
+Jmeno site:
+    Semafor
+Komentar:
+    Automaticky semafor vyuzivajici zpozdeni. Bezi sam v nekonecne smycce.
+Vstupy:
+    none
+Vystupy:
+    none
+Promenne:
+    int cykly = 0;
+Mista (pocatecni tokeny, volitelne akce):
+    Zelena (1) : { }
+    Zluta (0) : { }
+    Cervena (0) : { }
+Prechody (prvni blok = arcs, druhy blok = podminky a akce):
+T_DoZlute :
+    in: Zelena*1
+    out: Zluta*1
+    when: [ true ] @ 3000
+    do: { g_engine->send_log("Semafor: ZLUTA"); }
+T_DoCervene :
+    in: Zluta*1
+    out: Cervena*1
+    when: [ true ] @ 1000
+    do: { g_engine->send_log("Semafor: CERVENA"); }
+T_DoZelene :
+    in: Cervena*1
+    out: Zelena*1
+    when: [ true ] @ 3000
+    do: { cykly++; g_engine->send_log("Semafor: ZELENA (cyklus " + std::to_string(cykly) + ")"); }
